@@ -1,26 +1,129 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background-100: #0a0a0a;
+  --background-200: #000000;
+  --gray-100: #1a1a1a;
+  --gray-200: #1f1f1f;
+  --gray-300: #292929;
+  --gray-400: #2e2e2e;
+  --gray-500: #454545;
+  --gray-600: #878787;
+  --gray-700: #8f8f8f;
+  --gray-800: #7d7d7d;
+  --gray-900: #a1a1a1;
+  --gray-1000: #ededed;
+  --gray-alpha-100: #ffffff0f;
+  --gray-alpha-200: #ffffff17;
+  --gray-alpha-300: #ffffff21;
+  --gray-alpha-400: #ffffff24;
+  --gray-alpha-500: #ffffff3d;
+  --gray-alpha-600: #ffffff82;
+  --gray-alpha-700: #ffffff8a;
+  --gray-alpha-800: #ffffff78;
+  --gray-alpha-900: #ffffff9c;
+  --gray-alpha-1000: #ffffffeb;
+  --blue-100: #0f1c2e;
+  --blue-200: #10233d;
+  --blue-300: #0f2f57;
+  --blue-400: #0d3868;
+  --blue-500: #0a4380;
+  --blue-600: #0091ff;
+  --blue-700: #0072f5;
+  --blue-800: #0062d1;
+  --blue-900: #52a8ff;
+  --blue-1000: #ebf6ff;
+  --red-100: #2a1314;
+  --red-200: #3c1618;
+  --red-300: #561a1e;
+  --red-400: #671e21;
+  --red-500: #832126;
+  --red-600: #e5484d;
+  --red-700: #e5484d;
+  --red-800: #d93036;
+  --red-900: #ff6166;
+  --red-1000: #feecee;
+  --amber-100: #291800;
+  --amber-200: #331b00;
+  --amber-300: #4d2a00;
+  --amber-400: #573300;
+  --amber-500: #6b4105;
+  --amber-600: #e79d13;
+  --amber-700: #ffb224;
+  --amber-800: #ff990a;
+  --amber-900: #f2a20d;
+  --amber-1000: #fef3dc;
+  --green-100: #0b2212;
+  --green-200: #0f2e18;
+  --green-300: #12361b;
+  --green-400: #0c451b;
+  --green-500: #126426;
+  --green-600: #1a9338;
+  --green-700: #45a557;
+  --green-800: #398e4a;
+  --green-900: #62c073;
+  --green-1000: #e5fbea;
+  --teal-100: #04201b;
+  --teal-200: #062822;
+  --teal-300: #083a33;
+  --teal-400: #053d35;
+  --teal-500: #085e53;
+  --teal-600: #0c9784;
+  --teal-700: #12a594;
+  --teal-800: #0d8c7d;
+  --teal-900: #0ac7b4;
+  --teal-1000: #e0faf4;
+  --purple-100: #231528;
+  --purple-200: #2e1938;
+  --purple-300: #422154;
+  --purple-400: #4f2768;
+  --purple-500: #5f2e85;
+  --purple-600: #8e4ec6;
+  --purple-700: #8e4ec6;
+  --purple-800: #763da9;
+  --purple-900: #bf7af0;
+  --purple-1000: #f8edfc;
+  --pink-100: #28151d;
+  --pink-200: #3a1726;
+  --pink-300: #4f1c31;
+  --pink-400: #551b33;
+  --pink-500: #6c1e3e;
+  --pink-600: #b31a57;
+  --pink-700: #ea3e83;
+  --pink-800: #f14f89;
+  --pink-900: #f75f8f;
+  --pink-1000: #feecf4;
 }
 
+/* https://vercel.com/geist/colors */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-element-background: var(--background-100);
+  --color-secondary-background: var(--background-200);
+  --color-default-background: var(--gray-100);
+  --color-hover-background: var(--gray-200);
+  --color-active-background: var(--gray-300);
+  --color-default-border: var(--gray-400);
+  --color-hover-border: var(--gray-500);
+  --color-active-border: var(--gray-600);
+  --color-default-high-contrast-background: var(--gray-700);
+  --color-hover-high-contrast-background: var(--gray-800);
+  --color-secondary-text: var(--gray-900);
+  --color-primary-text: var(--gray-1000);
+  --color-success-text: var(--green-900);
+  --color-warning-text: var(--amber-900);
+  --color-error-text: var(--red-900);
+  --color-success-standalone: var(--green-700);
+  --color-warning-standalone: var(--amber-700);
+  --color-error-standalone: var(--red-700);
+  --color-success-background: var(--green-100);
+  --color-warning-background: var(--amber-100);
+  --color-error-background: var(--red-100);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-secondary-background);
+  color: var(--color-secondary-text);
   font-family: Arial, Helvetica, sans-serif;
 }
