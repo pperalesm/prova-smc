@@ -28,11 +28,6 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "next lint --fix --file"
