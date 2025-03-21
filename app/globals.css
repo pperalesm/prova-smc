@@ -1,28 +1,10 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+/* https://vercel.com/geist/colors */
+
+@custom-variant dark (&:is(.dark *));
 :root {
-  --background-100: #0a0a0a;
-  --background-200: #000000;
-  --gray-100: #1a1a1a;
-  --gray-200: #1f1f1f;
-  --gray-300: #292929;
-  --gray-400: #2e2e2e;
-  --gray-500: #454545;
-  --gray-600: #878787;
-  --gray-700: #8f8f8f;
-  --gray-800: #7d7d7d;
-  --gray-900: #a1a1a1;
-  --gray-1000: #ededed;
-  --gray-alpha-100: #ffffff0f;
-  --gray-alpha-200: #ffffff17;
-  --gray-alpha-300: #ffffff21;
-  --gray-alpha-400: #ffffff24;
-  --gray-alpha-500: #ffffff3d;
-  --gray-alpha-600: #ffffff82;
-  --gray-alpha-700: #ffffff8a;
-  --gray-alpha-800: #ffffff78;
-  --gray-alpha-900: #ffffff9c;
-  --gray-alpha-1000: #ffffffeb;
   --blue-100: #0f1c2e;
   --blue-200: #10233d;
   --blue-300: #0f2f57;
@@ -93,37 +75,125 @@
   --pink-800: #f14f89;
   --pink-900: #f75f8f;
   --pink-1000: #feecf4;
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.21 0.006 285.885);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.705 0.015 286.067);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-primary: oklch(0.21 0.006 285.885);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.705 0.015 286.067);
 }
 
-/* https://vercel.com/geist/colors */
+.dark {
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.92 0.004 286.32);
+  --primary-foreground: oklch(0.21 0.006 285.885);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.552 0.016 285.938);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.552 0.016 285.938);
+}
+
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-element-background: var(--background-100);
-  --color-secondary-background: var(--background-200);
-  --color-default-background: var(--gray-100);
-  --color-hover-background: var(--gray-200);
-  --color-active-background: var(--gray-300);
-  --color-default-border: var(--gray-400);
-  --color-hover-border: var(--gray-500);
-  --color-active-border: var(--gray-600);
-  --color-default-high-contrast-background: var(--gray-700);
-  --color-hover-high-contrast-background: var(--gray-800);
-  --color-secondary-text: var(--gray-900);
-  --color-primary-text: var(--gray-1000);
-  --color-success-text: var(--green-900);
-  --color-warning-text: var(--amber-900);
-  --color-error-text: var(--red-900);
-  --color-success-standalone: var(--green-700);
-  --color-warning-standalone: var(--amber-700);
-  --color-error-standalone: var(--red-700);
-  --color-success-background: var(--green-100);
-  --color-warning-background: var(--amber-100);
-  --color-error-background: var(--red-100);
+  --color-success-foreground: var(--green-900);
+  --color-success: var(--green-100);
+  --color-warning-foreground: var(--amber-900);
+  --color-warning: var(--amber-100);
+  --color-error-foreground: var(--red-900);
+  --color-error: var(--red-100);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
-  background: var(--color-secondary-background);
-  color: var(--color-secondary-text);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
