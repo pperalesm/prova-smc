@@ -37,5 +37,10 @@
     "*.{js,jsx,ts,tsx,css,scss,less,md,mdx,json,html,yaml,yml,hbs}": [
       "prettier --write"
     ]
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
   }
 }
