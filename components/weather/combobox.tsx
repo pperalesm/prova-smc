@@ -60,13 +60,16 @@ export function LocationCombobox() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-84 justify-between cursor-pointer"
+          className="w-40 sm:w-84 justify-between cursor-pointer"
         >
-          {location || "Seleccioni el municipi..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <p className="text-start text-ellipsis grow overflow-hidden">
+            {location || "Seleccioni el municipi..."}
+          </p>
+
+          <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-84 p-0">
+      <PopoverContent className="w-40 sm:w-84 p-0">
         <Command>
           <CommandInput placeholder="Cercar municipi" />
           <CommandList>

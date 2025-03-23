@@ -41,7 +41,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="grow flex flex-col items-center justify-center">
+          <main className="grow flex flex-col items-center justify-center my-16">
             {children}
           </main>
           <Footer />
