@@ -76,6 +76,12 @@
   --pink-900: #f75f8f;
   --pink-1000: #feecf4;
   --radius: 0.625rem;
+  --success-foreground: var(--green-100);
+  --success: var(--green-900);
+  --warning-foreground: var(--amber-100);
+  --warning: var(--amber-900);
+  --error-foreground: var(--red-100);
+  --error: var(--red-900);
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
@@ -110,6 +116,12 @@
 }
 
 .dark {
+  --success-foreground: var(--green-900);
+  --success: var(--green-100);
+  --warning-foreground: var(--amber-900);
+  --warning: var(--amber-100);
+  --error-foreground: var(--red-900);
+  --error: var(--red-100);
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
@@ -146,12 +158,12 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-success-foreground: var(--green-900);
-  --color-success: var(--green-100);
-  --color-warning-foreground: var(--amber-900);
-  --color-warning: var(--amber-100);
-  --color-error-foreground: var(--red-900);
-  --color-error: var(--red-100);
+  --color-success-foreground: var(--success-foreground);
+  --color-success: var(--success);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning: var(--warning);
+  --color-error-foreground: var(--error-foreground);
+  --color-error: var(--error);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
