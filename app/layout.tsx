@@ -5,8 +5,6 @@ import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 import { Footer } from "@/components/common/footer";
 
-export const experimental_ppr = true;
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
