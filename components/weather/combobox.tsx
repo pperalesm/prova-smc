@@ -18,8 +18,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import useSWR from "swr";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { test } from "@/actions/test";
+import { useEffect, useState } from "react";
 
 export interface ILocation {
   codi: string;
@@ -32,14 +33,46 @@ export interface ILocation {
     codi: number;
     nom: string;
   };
-  slug: string | null;
+  slug: string;
 }
 
 export function LocationCombobox() {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
   const router = useRouter();
-  const location = searchParams.get("location");
+  const { location } = useParams<{ location?: string }>();
+  const [selectedLocation, setSelectedLocation] = useState<
+    ILocation | undefined
+  >();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (selectedLocation && location !== selectedLocation.slug) {
+      router.push(`/weather/${selectedLocation.slug}`);
+    }
+  }, [selectedLocation, location, router]);
+
+  useSWR(
+    `http://localhost:3000/location/${location}`,
+    async () => {
+      if (selectedLocation || !location) return;
+
+      setSelectedLocation({
+        codi: "",
+        nom: "REAL NAME",
+        coordenades: { latitud: 0, longitud: 0 },
+        comarca: { codi: 0, nom: "" },
+        slug: location,
+      });
+    },
+    {
+      revalidateOnMount: true,
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      refreshWhenOffline: false,
+      refreshWhenHidden: false,
+      refreshInterval: 0,
+    },
+  );
 
   const { data, isLoading } = useSWR(
     `http://localhost:3000/weather`,
@@ -49,8 +82,6 @@ export function LocationCombobox() {
       return json as ILocation[];
     },
   );
-
-  const [open, setOpen] = React.useState(false);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -62,9 +93,8 @@ export function LocationCombobox() {
           className="w-40 sm:w-84 justify-between cursor-pointer"
         >
           <p className="text-start text-ellipsis grow overflow-hidden">
-            {location || "Seleccioni el municipi..."}
+            {selectedLocation?.nom || "Seleccioni el municipi..."}
           </p>
-
           <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -77,16 +107,14 @@ export function LocationCombobox() {
                 "No s'ha trobat cap municipi"}
             </CommandEmpty>
             <CommandGroup>
-              {data?.map((value) => (
+              {data?.map((item) => (
                 <CommandItem
-                  key={value.nom}
-                  value={value.nom}
+                  key={item.nom}
+                  value={item.slug}
                   onSelect={(selectedValue) => {
-                    router.push(
-                      selectedValue === location
-                        ? pathname
-                        : `${pathname}?location=${selectedValue}`,
-                    );
+                    if (selectedValue !== selectedLocation?.slug) {
+                      setSelectedLocation(item);
+                    }
                     setOpen(false);
                   }}
                   className="cursor-pointer"
@@ -94,10 +122,12 @@ export function LocationCombobox() {
                   <Check
                     className={cn(
                       "h-4 w-4",
-                      location === value.nom ? "opacity-100" : "opacity-0",
+                      selectedLocation?.slug === item.slug
+                        ? "opacity-100"
+                        : "opacity-0",
                     )}
                   />
-                  {value.nom}
+                  {item.nom}
                 </CommandItem>
               ))}
             </CommandGroup>

@@ -1,11 +1,16 @@
 import { toCatalanDateString } from "@/lib/utils";
 
-export async function WeatherInfo({ location }: { location: string }) {
+export async function WeatherInfo({
+  params,
+}: {
+  params: Promise<{ location: string }>;
+}) {
+  const { location } = await params;
   const dateString = toCatalanDateString(new Date());
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  console.debug("Rendering Weather Info at " + new Date().toISOString());
+  console.debug("Rendering " + location + " at " + new Date().toISOString());
 
   return (
     <>

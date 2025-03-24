@@ -1,15 +1,9 @@
-import { WeatherWrapper } from "@/components/weather/wrapper";
-
-export const revalidate = 60;
-
-export default function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{
-    location?: string;
-  }>;
-}) {
+export default function Page() {
   console.debug("Rendering Weather Page at " + new Date().toISOString());
 
-  return <WeatherWrapper searchParams={searchParams} />;
+  return (
+    <p className="text-center text-muted-foreground">
+      No s&apos;ha seleccionat cap municipi
+    </p>
+  );
 }
