@@ -1,8 +1,7 @@
 "use client";
 
-import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, generateRandomString } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -17,10 +16,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import useSWR from "swr";
 import { useRouter, useParams } from "next/navigation";
+import { useState } from "react";
+import useSWR from "swr";
 import { test } from "@/actions/test";
-import { useEffect, useState } from "react";
 
 export interface ILocation {
   codi: string;
@@ -40,48 +39,49 @@ export function LocationCombobox() {
   const router = useRouter();
   const { location } = useParams<{ location?: string }>();
   const [selectedLocation, setSelectedLocation] = useState<
-    ILocation | undefined
+    ILocation | undefined | null
   >();
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    if (selectedLocation && location !== selectedLocation.slug) {
-      router.push(`/weather/${selectedLocation.slug}`);
-    }
-  }, [selectedLocation, location, router]);
+  const { data, isLoading } = useSWR(
+    `http://localhost:3000/locations`,
+    async (): Promise<ILocation[]> => {
+      if (location) {
+        // Fetch location on mount to get its name
+      }
 
-  useSWR(
-    `http://localhost:3000/location/${location}`,
-    async () => {
-      if (selectedLocation || !location) return;
-
-      setSelectedLocation({
-        codi: "",
-        nom: "REAL NAME",
-        coordenades: { latitud: 0, longitud: 0 },
-        comarca: { codi: 0, nom: "" },
-        slug: location,
-      });
+      const testLocations = await test();
+      return testLocations as ILocation[];
     },
     {
       revalidateOnMount: true,
-      revalidateIfStale: false,
+      refreshInterval: 0,
+      refreshWhenHidden: false,
+      refreshWhenOffline: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-      refreshWhenOffline: false,
-      refreshWhenHidden: false,
-      refreshInterval: 0,
+      revalidateIfStale: false,
     },
   );
 
-  const { data, isLoading } = useSWR(
-    `http://localhost:3000/weather`,
-    async (): Promise<ILocation[]> => {
-      const json = await test();
+  const onCommandItemHover = (item: ILocation) => {
+    if (item.slug !== selectedLocation?.slug) {
+      router.prefetch(`/weather/${item.slug}`);
+    } else {
+      router.prefetch(`/weather`);
+    }
+  };
 
-      return json as ILocation[];
-    },
-  );
+  const onCommandItemSelect = (item: ILocation) => {
+    setOpen(false);
+    if (item.slug !== selectedLocation?.slug) {
+      setSelectedLocation(item);
+      router.push(`/weather/${item.slug}?no-cache=${generateRandomString()}`);
+    } else {
+      setSelectedLocation(null);
+      router.push(`/weather?no-cache=${generateRandomString()}`);
+    }
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -109,14 +109,10 @@ export function LocationCombobox() {
             <CommandGroup>
               {data?.map((item) => (
                 <CommandItem
-                  key={item.nom}
+                  key={item.slug}
                   value={item.slug}
-                  onSelect={(selectedValue) => {
-                    if (selectedValue !== selectedLocation?.slug) {
-                      setSelectedLocation(item);
-                    }
-                    setOpen(false);
-                  }}
+                  onMouseEnter={() => onCommandItemHover(item)}
+                  onSelect={() => onCommandItemSelect(item)}
                   className="cursor-pointer"
                 >
                   <Check

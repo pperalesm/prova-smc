@@ -15,3 +15,9 @@ export function toCatalanDateString(date: Date) {
     })
     .replaceAll("/", ".");
 }
+
+export function generateRandomString(length: number = 8) {
+  return Math.random()
+    .toString(36)
+    .slice(2, length + 2);
+}

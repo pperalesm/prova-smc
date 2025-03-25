@@ -8,9 +8,9 @@ export async function WeatherInfo({
   const { location } = await params;
   const dateString = toCatalanDateString(new Date());
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  console.debug("Rendering " + location + " at " + new Date().toISOString());
+  console.debug(
+    `Rendering WeatherInfo for location ${location} at ${new Date().toISOString().split("T")[1]}`,
+  );
 
   return (
     <>
