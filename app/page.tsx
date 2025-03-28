@@ -6,7 +6,7 @@ import { generateRandomString } from "@/lib/utils";
 export default function Home() {
   return (
     <Button variant={"outline"} asChild>
-      <Link href={`/weather/barcelona?no-cache=${generateRandomString()}`}>
+      <Link href={`/weather/080193?no-cache=${generateRandomString()}`}>
         Començar
         <ArrowRight />
       </Link>

@@ -11,11 +11,8 @@ import { WeatherInfo } from "@/components/weather/info";
 import { test } from "@/actions/test";
 export async function generateStaticParams() {
   const locations = await test();
-  return locations.map((location: { nom: string }) => ({
-    location: location.nom
-      .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, ""),
+  return locations.map((location: { code: string }) => ({
+    code: location.code,
   }));
 }
 
@@ -33,7 +30,7 @@ export default function Page({
   params,
 }: {
   params: Promise<{
-    location: string;
+    code: string;
   }>;
 }) {
   return <WeatherInfo params={params} />;

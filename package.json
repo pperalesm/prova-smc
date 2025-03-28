@@ -1,5 +1,5 @@
 {
-  "name": "prova-smc",
+  "name": "prova-smc-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -49,6 +49,10 @@
     "*.{js,jsx,ts,tsx,css,scss,less,md,mdx,json,html,yaml,yml,hbs}": [
       "prettier --write"
     ]
+  },
+  "engines": {
+    "pnpm": "10.6.5",
+    "node": "22.14.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
