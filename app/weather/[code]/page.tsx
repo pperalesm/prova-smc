@@ -1,4 +1,5 @@
 import { WeatherInfo } from "@/components/weather/info";
+import { PageDto, IShortLocation } from "@/lib/interfaces";
 
 /*
  * Dynamic Rendering
@@ -8,12 +9,40 @@ import { WeatherInfo } from "@/components/weather/info";
 /*
  * Static Site Generation
  */
-import { test } from "@/actions/test";
 export async function generateStaticParams() {
-  const locations = await test();
-  return locations.map((location: { code: string }) => ({
-    code: location.code,
-  }));
+  const locations: { code: string }[] = [];
+
+  let hasNextPage = true;
+  let nextPage = 1;
+
+  while (hasNextPage) {
+    let res: Response;
+
+    try {
+      res = await fetch(
+        `http://localhost:5000/locations?take=50&page=${nextPage}`,
+      );
+    } catch {
+      break;
+    }
+
+    if (!res.ok) {
+      break;
+    }
+
+    const page: PageDto<IShortLocation> = await res.json();
+
+    locations.push(
+      ...page.data.map((location) => ({
+        code: location.code,
+      })),
+    );
+
+    hasNextPage = page.meta.hasNextPage;
+    nextPage++;
+  }
+
+  return locations;
 }
 
 /*

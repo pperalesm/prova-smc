@@ -1,5 +1,6 @@
-import { ILocation } from "@/components/weather/combobox";
 import { WeatherWrapper } from "@/components/weather/wrapper";
+import { ILocation } from "@/lib/interfaces";
+import { notFound } from "next/navigation";
 
 export default async function Layout({
   children,
@@ -7,21 +8,25 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
   params: Promise<{
-    code?: string;
+    code: string;
   }>;
 }>) {
   const { code } = await params;
 
-  let selectedLocation: ILocation | undefined;
+  const res = await fetch(`http://localhost:5000/locations/${code}`);
 
-  if (code) {
-    const data = await fetch(`http://localhost:5000/locations/${code}`);
+  if (!res.ok) {
+    if (res.status === 404) {
+      notFound();
+    }
 
-    selectedLocation = await data.json();
+    throw new Error("Internal Server Error.", { cause: await res.json() });
   }
 
+  const selectedLocation: ILocation = await res.json();
+
   return (
-    <WeatherWrapper code={code} selectedLocation={selectedLocation}>
+    <WeatherWrapper selectedLocation={selectedLocation}>
       {children}
     </WeatherWrapper>
   );

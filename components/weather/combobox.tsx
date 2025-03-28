@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, ChevronsUpDown } from "lucide-react";
-import { cn, generateRandomString } from "@/lib/utils";
+import { cn, fetcher } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -17,50 +17,49 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import useSWR from "swr";
-import { test } from "@/actions/test";
-
-export interface ILocation {
-  code: string;
-  name: string;
-}
+import { useEffect, useState } from "react";
+import { ILocation, IShortLocation, PageDto } from "@/lib/interfaces";
+import { useDebouncedCallback } from "use-debounce";
+import useSWRImmutable from "swr/immutable";
 
 export function LocationCombobox({
-  code,
   defaultSelectedLocation,
 }: {
-  code?: string;
   defaultSelectedLocation?: ILocation;
 }) {
-  const router = useRouter();
   const [selectedLocation, setSelectedLocation] = useState<
-    ILocation | undefined | null
+    IShortLocation | undefined | null
   >(defaultSelectedLocation);
   const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const router = useRouter();
 
-  const { data, isLoading } = useSWR(
-    `http://localhost:3000/locations`,
-    async (): Promise<ILocation[]> => {
-      if (code) {
-        // Fetch location on mount to get its name
-      }
+  useEffect(() => {
+    if (!open) {
+      setSearchTerm("");
+    }
+  }, [open]);
 
-      const testLocations = await test();
-      return testLocations as ILocation[];
-    },
-    {
-      revalidateOnMount: true,
-      refreshInterval: 0,
-      refreshWhenHidden: false,
-      refreshWhenOffline: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      revalidateIfStale: false,
-    },
+  useEffect(() => {
+    setIsTyping(false);
+  }, [searchTerm]);
+
+  const { data, isLoading } = useSWRImmutable<PageDto<IShortLocation>>(
+    `http://localhost:5000/locations${searchTerm ? "?name=" + searchTerm : ""}`,
+    fetcher,
   );
 
-  const onCommandItemHover = (item: ILocation) => {
+  const debouncedSetSearchTerm = useDebouncedCallback((term: string) => {
+    setSearchTerm(term);
+  }, 300);
+
+  const handleValueChange = (value: string) => {
+    setIsTyping(true);
+    debouncedSetSearchTerm(value);
+  };
+
+  const handleCommandItemHover = (item: IShortLocation) => {
     if (item.code !== selectedLocation?.code) {
       router.prefetch(`/weather/${item.code}`);
     } else {
@@ -68,14 +67,14 @@ export function LocationCombobox({
     }
   };
 
-  const onCommandItemSelect = (item: ILocation) => {
+  const handleCommandItemSelect = (item: IShortLocation) => {
     setOpen(false);
     if (item.code !== selectedLocation?.code) {
       setSelectedLocation(item);
-      router.push(`/weather/${item.code}?no-cache=${generateRandomString()}`);
+      router.push(`/weather/${item.code}`);
     } else {
       setSelectedLocation(null);
-      router.push(`/weather?no-cache=${generateRandomString()}`);
+      router.push(`/weather`);
     }
   };
 
@@ -89,39 +88,44 @@ export function LocationCombobox({
           className="w-40 sm:w-84 justify-between cursor-pointer"
         >
           <p className="text-start text-ellipsis grow overflow-hidden">
-            {selectedLocation?.name || "Seleccioni el municipi..."}
+            {selectedLocation?.name || "Seleccionar municipi"}
           </p>
           <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-40 sm:w-84 p-0">
-        <Command>
-          <CommandInput placeholder="Cercar municipi" />
+        <Command shouldFilter={false}>
+          <CommandInput
+            placeholder="Cercar municipi"
+            onValueChange={handleValueChange}
+          />
           <CommandList>
             <CommandEmpty>
-              {(isLoading && "Carregant municipis...") ||
-                "No s'ha trobat cap municipi"}
+              {(!isLoading && !isTyping && "No s'ha trobat cap municipi") ||
+                "Carregant municipis..."}
             </CommandEmpty>
             <CommandGroup>
-              {data?.map((item) => (
-                <CommandItem
-                  key={item.code}
-                  value={item.code}
-                  onMouseEnter={() => onCommandItemHover(item)}
-                  onSelect={() => onCommandItemSelect(item)}
-                  className="cursor-pointer"
-                >
-                  <Check
-                    className={cn(
-                      "h-4 w-4",
-                      selectedLocation?.code === item.code
-                        ? "opacity-100"
-                        : "opacity-0",
-                    )}
-                  />
-                  {item.name}
-                </CommandItem>
-              ))}
+              {!isLoading &&
+                !isTyping &&
+                data?.data.map((item) => (
+                  <CommandItem
+                    key={item.code}
+                    value={item.code}
+                    onMouseEnter={() => handleCommandItemHover(item)}
+                    onSelect={() => handleCommandItemSelect(item)}
+                    className="cursor-pointer"
+                  >
+                    <Check
+                      className={cn(
+                        "h-4 w-4",
+                        selectedLocation?.code === item.code
+                          ? "opacity-100"
+                          : "opacity-0",
+                      )}
+                    />
+                    {item.name}
+                  </CommandItem>
+                ))}
             </CommandGroup>
           </CommandList>
         </Command>

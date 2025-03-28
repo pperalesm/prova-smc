@@ -1,6 +1,10 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+export async function fetcher(url: string) {
+  return fetch(url).then((res) => res.json());
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -14,10 +18,4 @@ export function toCatalanDateString(date: Date) {
       timeZone: "Europe/Madrid",
     })
     .replaceAll("/", ".");
-}
-
-export function generateRandomString(length: number = 8) {
-  return Math.random()
-    .toString(36)
-    .slice(2, length + 2);
 }
