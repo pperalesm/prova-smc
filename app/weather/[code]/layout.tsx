@@ -1,6 +1,5 @@
 import { WeatherWrapper } from "@/components/weather/wrapper";
-import { ILocation } from "@/lib/interfaces";
-import { notFound } from "next/navigation";
+import { fetchLocationByCode } from "@/lib/utils";
 
 export default async function Layout({
   children,
@@ -13,17 +12,7 @@ export default async function Layout({
 }>) {
   const { code } = await params;
 
-  const res = await fetch(`http://localhost:5000/locations/${code}`);
-
-  if (!res.ok) {
-    if (res.status === 404) {
-      notFound();
-    }
-
-    throw new Error("Internal Server Error.", { cause: await res.json() });
-  }
-
-  const selectedLocation: ILocation = await res.json();
+  const selectedLocation = await fetchLocationByCode(code);
 
   return (
     <WeatherWrapper selectedLocation={selectedLocation}>
