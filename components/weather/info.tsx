@@ -1,6 +1,7 @@
 import { fetchLocationByCode } from "@/lib/utils";
 import { getDateStringAtTimeZone } from "@/lib/utils";
 import { WeatherExtendedCard } from "./extended-card";
+import { WeatherCompressedCard } from "./compressed-card";
 
 export async function WeatherInfo({
   params,
@@ -32,30 +33,21 @@ export async function WeatherInfo({
         dailyVariable={selectedLocation.dailyVariables[0]}
         title={"Avui"}
         todayDateString={todayDateString}
+        key={selectedLocation.dailyVariables[0].dateString}
       />
       <WeatherExtendedCard
         dailyVariable={selectedLocation.dailyVariables[1]}
         title={"Demà"}
         todayDateString={todayDateString}
+        key={selectedLocation.dailyVariables[1].dateString}
       />
-      <div className="flex items-center justify-center w-25 h-40 border-b">
-        {code}
-      </div>
-      <div className="flex items-center justify-center w-25 h-40 border-b">
-        {code}
-      </div>
-      <div className="flex items-center justify-center w-25 h-40 border-b">
-        {code}
-      </div>
-      <div className="flex items-center justify-center w-25 h-40 border-b">
-        {code}
-      </div>
-      <div className="flex items-center justify-center w-25 h-40 border-b">
-        {code}
-      </div>
-      <div className="flex items-center justify-center w-25 h-40 border-b">
-        {code}
-      </div>
+      {selectedLocation.dailyVariables.slice(2).map((dailyVariable) => (
+        <WeatherCompressedCard
+          dailyVariable={dailyVariable}
+          todayDateString={todayDateString}
+          key={dailyVariable.dateString}
+        />
+      ))}
     </>
   );
 }

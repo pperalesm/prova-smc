@@ -14,10 +14,13 @@ export function WeatherCardWarning({
   dailyVariable: IDailyVariable;
 }) {
   const mayContainOutdatedMaxTemperature =
+    dailyVariable.maxTemperature !== undefined &&
     todayDateString !== dailyVariable.maxTemperatureDeliveryDate;
   const mayContainOutdatedMinTemperature =
+    dailyVariable.minTemperature !== undefined &&
     todayDateString !== dailyVariable.minTemperatureDeliveryDate;
   const mayContainOutdatedPrecipitationProbability =
+    dailyVariable.precipitationProbability !== undefined &&
     todayDateString !== dailyVariable.precipitationProbabilityDeliveryDate;
 
   if (
@@ -29,11 +32,11 @@ export function WeatherCardWarning({
   }
 
   return (
-    <HoverCard>
+    <HoverCard openDelay={0} closeDelay={300}>
       <HoverCardTrigger>
         <TriangleAlertIcon className="size-4 shrink-0 opacity-50 text-warning-foreground" />
       </HoverCardTrigger>
-      <HoverCardContent className="p-2 text-sm w-55">
+      <HoverCardContent side="top" className="p-4 text-sm w-60">
         <p>Les següents dades poden estar desactualitzades:</p>
         <br />
         <ul className="list-disc list-inside ml-3">
