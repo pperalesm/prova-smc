@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, ChevronsUpDown } from "lucide-react";
-import { cn, fetcher } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -18,15 +18,20 @@ import {
 } from "@/components/ui/popover";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ILocation, IShortLocation, PageDto } from "@/lib/interfaces";
+import { ILocation, IShortLocation, PageDto } from "@/lib/api";
 import { useDebouncedCallback } from "use-debounce";
 import useSWRImmutable from "swr/immutable";
+import { API } from "@/lib/api";
+import { fetcher } from "@/lib/api";
+import { APP } from "@/lib/routes";
+
+export interface ILocationComboboxProps {
+  defaultSelectedLocation?: ILocation;
+}
 
 export function LocationCombobox({
   defaultSelectedLocation,
-}: {
-  defaultSelectedLocation?: ILocation;
-}) {
+}: ILocationComboboxProps) {
   const [selectedLocation, setSelectedLocation] = useState<
     IShortLocation | undefined | null
   >(defaultSelectedLocation);
@@ -46,7 +51,7 @@ export function LocationCombobox({
   }, [searchTerm]);
 
   const { data, isLoading } = useSWRImmutable<PageDto<IShortLocation>>(
-    `http://localhost:5000/locations${searchTerm ? "?name=" + searchTerm : ""}`,
+    `${API.BASE_URL}${API.ENDPOINTS.LOCATIONS}?${API.PARAMS.NAME(searchTerm)}`,
     fetcher,
   );
 
@@ -61,9 +66,9 @@ export function LocationCombobox({
 
   const handleCommandItemHover = (item: IShortLocation) => {
     if (item.code !== selectedLocation?.code) {
-      router.prefetch(`/weather/${item.code}`);
+      router.prefetch(APP.ROUTES.WEATHER_BY_CODE(item.code));
     } else {
-      router.prefetch(`/weather`);
+      router.prefetch(APP.ROUTES.WEATHER);
     }
   };
 
@@ -71,10 +76,10 @@ export function LocationCombobox({
     setOpen(false);
     if (item.code !== selectedLocation?.code) {
       setSelectedLocation(item);
-      router.push(`/weather/${item.code}`);
+      router.push(APP.ROUTES.WEATHER_BY_CODE(item.code));
     } else {
       setSelectedLocation(null);
-      router.push(`/weather`);
+      router.push(APP.ROUTES.WEATHER);
     }
   };
 

@@ -3,16 +3,18 @@ import {
   HoverCard,
   HoverCardTrigger,
   HoverCardContent,
-} from "../ui/hover-card";
-import { IDailyVariable } from "@/lib/interfaces";
+} from "@/components/ui/hover-card";
+import { IDailyVariable } from "@/lib/api";
+
+export interface IWeatherCardWarningProps {
+  todayDateString: string;
+  dailyVariable: IDailyVariable;
+}
 
 export function WeatherCardWarning({
   todayDateString,
   dailyVariable,
-}: {
-  todayDateString: string;
-  dailyVariable: IDailyVariable;
-}) {
+}: IWeatherCardWarningProps) {
   const mayContainOutdatedMaxTemperature =
     dailyVariable.maxTemperature !== undefined &&
     todayDateString !== dailyVariable.maxTemperatureDeliveryDate;

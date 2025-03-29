@@ -1,22 +1,24 @@
-import { fetchLocationByCode } from "@/lib/utils";
 import { getDateStringAtTimeZone } from "@/lib/utils";
-import { WeatherExtendedCard } from "./extended-card";
-import { WeatherCompressedCard } from "./compressed-card";
+import { WeatherExtendedCard } from "@/components/weather/extended-card";
+import { WeatherCompressedCard } from "@/components/weather/compressed-card";
+import { fetchLocationByCode } from "@/lib/api";
+import { CATALAN_LOCALE, SPAIN_TIMEZONE } from "@/lib/constants";
 
-export async function WeatherInfo({
-  params,
-}: {
+export interface IWeatherInfoProps {
   params: Promise<{ code: string }>;
-}) {
+}
+
+export async function WeatherInfo({ params }: IWeatherInfoProps) {
   const { code } = await params;
-  const todayDateString = getDateStringAtTimeZone(
-    new Date(),
-    "cat",
-    "Europe/Madrid",
-  );
 
   console.debug(
     `Rendering WeatherInfo for location ${code} at ${new Date().toISOString().split("T")[1]}`,
+  );
+
+  const todayDateString = getDateStringAtTimeZone(
+    new Date(),
+    CATALAN_LOCALE,
+    SPAIN_TIMEZONE,
   );
 
   const selectedLocation = await fetchLocationByCode(code);

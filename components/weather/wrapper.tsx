@@ -1,16 +1,19 @@
-import { ILocation } from "@/lib/interfaces";
-import { LocationCombobox } from "./combobox";
+import {
+  ILocationComboboxProps,
+  LocationCombobox,
+} from "@/components/weather/combobox";
+
+export interface IWeatherWrapperProps extends ILocationComboboxProps {
+  children: React.ReactNode;
+}
 
 export function WeatherWrapper({
   children,
-  selectedLocation,
-}: {
-  children: React.ReactNode;
-  selectedLocation?: ILocation;
-}) {
+  defaultSelectedLocation,
+}: IWeatherWrapperProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-      <LocationCombobox defaultSelectedLocation={selectedLocation} />
+      <LocationCombobox defaultSelectedLocation={defaultSelectedLocation} />
       <div className="flex flex-wrap justify-center gap-4 w-40 sm:w-84 xl:w-258 h-357 sm:h-137 xl:h-49">
         {children}
       </div>

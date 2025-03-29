@@ -1,5 +1,6 @@
 import { WeatherInfo } from "@/components/weather/info";
-import { PageDto, IShortLocation } from "@/lib/interfaces";
+import { API } from "@/lib/api";
+import { PageDto, IShortLocation } from "@/lib/api";
 
 /*
  * Dynamic Rendering
@@ -20,7 +21,7 @@ export async function generateStaticParams() {
 
     try {
       res = await fetch(
-        `http://localhost:5000/locations?take=50&page=${nextPage}`,
+        `${API.BASE_URL}${API.ENDPOINTS.LOCATIONS}?${API.PARAMS.TAKE(50)}&${API.PARAMS.PAGE(nextPage)}`,
       );
     } catch {
       break;
@@ -58,9 +59,7 @@ export const revalidate = 60;
 export default function Page({
   params,
 }: {
-  params: Promise<{
-    code: string;
-  }>;
+  params: Promise<{ code: string }>;
 }) {
   return <WeatherInfo params={params} />;
 }

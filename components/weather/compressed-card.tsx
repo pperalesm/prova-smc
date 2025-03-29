@@ -1,19 +1,22 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IDailyVariable } from "@/lib/interfaces";
-import { WeatherCardWarning } from "./card-warning";
+import {
+  IWeatherCardWarningProps,
+  WeatherCardWarning,
+} from "@/components/weather/card-warning";
+import { getDayOfWeekFromDate } from "@/lib/utils";
+import { IDailyVariable } from "@/lib/api";
+
+export interface IWeatherCompressedCardProps extends IWeatherCardWarningProps {
+  dailyVariable: IDailyVariable;
+}
 
 export function WeatherCompressedCard({
   dailyVariable,
   todayDateString,
-}: {
-  dailyVariable: IDailyVariable;
-  todayDateString: string;
-}) {
-  const date = new Date(
+}: IWeatherCompressedCardProps) {
+  const title = getDayOfWeekFromDate(
     dailyVariable.dateString.split("/").reverse().join("-"),
   );
-  const dayOfWeek = date.toLocaleDateString("cat", { weekday: "short" });
-  const title = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
 
   return (
     <Card className="flex flex-col p-4 gap-4 w-25 h-40 overflow-hidden">

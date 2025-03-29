@@ -1,17 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IDailyVariable } from "@/lib/interfaces";
-import { WeatherCardWarning } from "./card-warning";
+import { IDailyVariable } from "@/lib/api";
+import {
+  IWeatherCardWarningProps,
+  WeatherCardWarning,
+} from "@/components/weather/card-warning";
 import { CloudRainWindIcon } from "lucide-react";
+
+export interface IWeatherExtendedCardProps extends IWeatherCardWarningProps {
+  title: string;
+  dailyVariable: IDailyVariable;
+}
 
 export function WeatherExtendedCard({
   dailyVariable,
   title,
   todayDateString,
-}: {
-  dailyVariable: IDailyVariable;
-  title: string;
-  todayDateString: string;
-}) {
+}: IWeatherExtendedCardProps) {
   return (
     <Card className="flex flex-col p-4 gap-4 w-40 h-40 overflow-hidden">
       <CardHeader className="flex justify-between items-center p-0">
