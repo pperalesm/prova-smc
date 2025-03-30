@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "playwright test"
   },
   "dependencies": {
     "@next/env": "^15.2.4",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.51.1",
     "@tailwindcss/postcss": "^4",
     "@types/lodash": "^4.17.16",
     "@types/node": "^20",
