@@ -1,22 +1,11 @@
 import { WeatherWrapper } from "@/components/weather/wrapper";
-import { fetchLocationByCode } from "@/lib/api";
 
-export default async function Layout({
+export default function Layout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{
-    code: string;
-  }>;
+  params: Promise<{ code: string }>;
 }) {
-  const { code } = await params;
-
-  const defaultSelectedLocation = await fetchLocationByCode(code);
-
-  return (
-    <WeatherWrapper defaultSelectedLocation={defaultSelectedLocation}>
-      {children}
-    </WeatherWrapper>
-  );
+  return <WeatherWrapper params={params}>{children}</WeatherWrapper>;
 }

@@ -1,19 +1,29 @@
-import {
-  ILocationComboboxProps,
-  LocationCombobox,
-} from "@/components/weather/combobox";
-import { NextIntlClientProvider, useMessages } from "next-intl";
+import { LocationCombobox } from "@/components/weather/combobox";
+import { NextIntlClientProvider } from "next-intl";
 import { pick } from "lodash";
+import { getMessages } from "next-intl/server";
+import { fetchLocationByCode, ILocation } from "@/lib/api";
 
-export interface IWeatherWrapperProps extends ILocationComboboxProps {
+export interface IWeatherWrapperProps {
   children: React.ReactNode;
+  params?: Promise<{
+    code: string;
+  }>;
 }
 
-export function WeatherWrapper({
+export async function WeatherWrapper({
   children,
-  defaultSelectedLocation,
+  params,
 }: IWeatherWrapperProps) {
-  const messages = useMessages();
+  const { code } = (await params) ?? {};
+
+  const messages = await getMessages();
+
+  let defaultSelectedLocation: ILocation | undefined;
+
+  if (code) {
+    defaultSelectedLocation = await fetchLocationByCode(code);
+  }
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
