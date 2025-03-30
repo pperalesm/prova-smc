@@ -33,5 +33,9 @@
   "WeatherInfo": {
     "today": "Avui",
     "tomorrow": "Demà"
+  },
+  "WeatherNotFound": {
+    "notFound": "No s'ha trobat el municipi demanat",
+    "goHome": "Tornar a l'inici"
   }
 }

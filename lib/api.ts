@@ -14,16 +14,16 @@ export const API = {
 };
 
 export async function fetchLocationByCode(code: string): Promise<ILocation> {
-  const res = await fetch(
-    `${API.BASE_URL}${API.ENDPOINTS.LOCATION_BY_CODE(code)}`,
-  );
+  let res: Response;
+
+  try {
+    res = await fetch(`${API.BASE_URL}${API.ENDPOINTS.LOCATION_BY_CODE(code)}`);
+  } catch {
+    notFound();
+  }
 
   if (!res.ok) {
-    if (res.status === 404) {
-      notFound();
-    }
-
-    throw new Error("Internal Server Error.", { cause: await res.json() });
+    notFound();
   }
 
   return await res.json();

@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <Button variant={"outline"} asChild>
-      <Link href={APP.ROUTES.BARCELONA_WEATHER}>
+      <Link href={APP.ROUTES.BARCELONA_WEATHER} prefetch={true}>
         {t("start")}
         <ArrowRight />
       </Link>
