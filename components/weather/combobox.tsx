@@ -24,6 +24,7 @@ import useSWRImmutable from "swr/immutable";
 import { API } from "@/lib/api";
 import { fetcher } from "@/lib/api";
 import { APP } from "@/lib/routes";
+import { useTranslations } from "next-intl";
 
 export interface ILocationComboboxProps {
   defaultSelectedLocation?: ILocation;
@@ -32,6 +33,7 @@ export interface ILocationComboboxProps {
 export function LocationCombobox({
   defaultSelectedLocation,
 }: ILocationComboboxProps) {
+  const t = useTranslations("LocationCombobox");
   const [selectedLocation, setSelectedLocation] = useState<
     IShortLocation | undefined | null
   >(defaultSelectedLocation);
@@ -93,7 +95,7 @@ export function LocationCombobox({
           className="w-40 sm:w-84 justify-between cursor-pointer"
         >
           <p className="text-start text-ellipsis grow overflow-hidden">
-            {selectedLocation?.name || "Seleccionar municipi"}
+            {selectedLocation?.name || t("noLocationSelected")}
           </p>
           <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -101,13 +103,13 @@ export function LocationCombobox({
       <PopoverContent className="w-40 sm:w-84 p-0">
         <Command shouldFilter={false}>
           <CommandInput
-            placeholder="Cercar municipi"
+            placeholder={t("searchLocation")}
             onValueChange={handleValueChange}
           />
           <CommandList>
             <CommandEmpty>
-              {(!isLoading && !isTyping && "No s'ha trobat cap municipi") ||
-                "Carregant municipis..."}
+              {(!isLoading && !isTyping && t("noLocationFound")) ||
+                t("loadingLocations")}
             </CommandEmpty>
             <CommandGroup>
               {!isLoading &&

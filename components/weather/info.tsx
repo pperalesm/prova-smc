@@ -3,6 +3,7 @@ import { WeatherExtendedCard } from "@/components/weather/extended-card";
 import { WeatherCompressedCard } from "@/components/weather/compressed-card";
 import { fetchLocationByCode } from "@/lib/api";
 import { CATALAN_LOCALE, SPAIN_TIMEZONE } from "@/lib/constants";
+import { getTranslations } from "next-intl/server";
 
 export interface IWeatherInfoProps {
   params: Promise<{ code: string }>;
@@ -10,6 +11,7 @@ export interface IWeatherInfoProps {
 
 export async function WeatherInfo({ params }: IWeatherInfoProps) {
   const { code } = await params;
+  const t = await getTranslations("WeatherInfo");
 
   console.debug(
     `Rendering WeatherInfo for location ${code} at ${new Date().toISOString().split("T")[1]}`,
@@ -33,13 +35,13 @@ export async function WeatherInfo({ params }: IWeatherInfoProps) {
       </p>
       <WeatherExtendedCard
         dailyVariable={selectedLocation.dailyVariables[0]}
-        title={"Avui"}
+        title={t("today")}
         todayDateString={todayDateString}
         key={selectedLocation.dailyVariables[0].dateString}
       />
       <WeatherExtendedCard
         dailyVariable={selectedLocation.dailyVariables[1]}
-        title={"Demà"}
+        title={t("tomorrow")}
         todayDateString={todayDateString}
         key={selectedLocation.dailyVariables[1].dateString}
       />

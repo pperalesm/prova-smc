@@ -5,6 +5,7 @@ import {
   HoverCardContent,
 } from "@/components/ui/hover-card";
 import { IDailyVariable } from "@/lib/api";
+import { useTranslations } from "next-intl";
 
 export interface IWeatherCardWarningProps {
   todayDateString: string;
@@ -15,6 +16,8 @@ export function WeatherCardWarning({
   todayDateString,
   dailyVariable,
 }: IWeatherCardWarningProps) {
+  const t = useTranslations("WeatherCardWarning");
+
   const mayContainOutdatedMaxTemperature =
     dailyVariable.maxTemperature !== undefined &&
     todayDateString !== dailyVariable.maxTemperatureDeliveryDate;
@@ -39,13 +42,13 @@ export function WeatherCardWarning({
         <TriangleAlertIcon className="size-4 shrink-0 opacity-50 text-warning-foreground" />
       </HoverCardTrigger>
       <HoverCardContent side="top" className="p-4 text-sm w-60">
-        <p>Les següents dades poden estar desactualitzades:</p>
+        <p>{t("title")}</p>
         <br />
         <ul className="list-disc list-inside ml-3">
-          {mayContainOutdatedMaxTemperature && <li>Temperatura màxima</li>}
-          {mayContainOutdatedMinTemperature && <li>Temperatura mínima</li>}
+          {mayContainOutdatedMaxTemperature && <li>{t("maxTemperature")}</li>}
+          {mayContainOutdatedMinTemperature && <li>{t("minTemperature")}</li>}
           {mayContainOutdatedPrecipitationProbability && (
-            <li>Probabilitat de precipitació</li>
+            <li>{t("precipitationProbability")}</li>
           )}
         </ul>
       </HoverCardContent>

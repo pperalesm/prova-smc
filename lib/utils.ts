@@ -1,6 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { CATALAN_LOCALE } from "@/lib/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -14,8 +13,8 @@ export function getDateStringAtTimeZone(
   return new Date(date).toLocaleDateString(locale, { timeZone });
 }
 
-export function getDayOfWeekFromDate(date: Date | string) {
-  const dayOfWeek = new Date(date).toLocaleDateString(CATALAN_LOCALE, {
+export function getDayOfWeekFromDate(date: Date | string, locale: string) {
+  const dayOfWeek = new Date(date).toLocaleDateString(locale, {
     weekday: "short",
   });
 

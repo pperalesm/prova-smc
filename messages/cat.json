@@ -1,0 +1,37 @@
+{
+  "Metadata": {
+    "title": "Prova SMC",
+    "description": "Prova tècnica per al SMC"
+  },
+  "Home": {
+    "start": "Començar"
+  },
+  "WeatherPage": {
+    "noLocationSelected": "No s'ha seleccionat cap municipi"
+  },
+  "Footer": {
+    "developedBy": "Desenvolupat per Pablo Perales Molas"
+  },
+  "WeatherCardWarning": {
+    "title": "Les següents dades poden estar desactualitzades:",
+    "maxTemperature": "Temperatura màxima",
+    "minTemperature": "Temperatura mínima",
+    "precipitationProbability": "Probabilitat de precipitació"
+  },
+  "LocationCombobox": {
+    "noLocationSelected": "Seleccionar municipi",
+    "searchLocation": "Cercar municipi",
+    "noLocationFound": "No s'ha trobat cap municipi",
+    "loadingLocations": "Carregant municipis..."
+  },
+  "WeatherCompressedCard": {
+    "noData": "s/d"
+  },
+  "WeatherExtendedCard": {
+    "noData": "s/d"
+  },
+  "WeatherInfo": {
+    "today": "Avui",
+    "tomorrow": "Demà"
+  }
+}

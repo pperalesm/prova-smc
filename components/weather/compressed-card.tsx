@@ -5,6 +5,7 @@ import {
 } from "@/components/weather/card-warning";
 import { getDayOfWeekFromDate } from "@/lib/utils";
 import { IDailyVariable } from "@/lib/api";
+import { useLocale, useTranslations } from "next-intl";
 
 export interface IWeatherCompressedCardProps extends IWeatherCardWarningProps {
   dailyVariable: IDailyVariable;
@@ -14,8 +15,12 @@ export function WeatherCompressedCard({
   dailyVariable,
   todayDateString,
 }: IWeatherCompressedCardProps) {
+  const t = useTranslations("WeatherCompressedCard");
+  const locale = useLocale();
+
   const title = getDayOfWeekFromDate(
     dailyVariable.dateString.split("/").reverse().join("-"),
+    locale,
   );
 
   return (
@@ -31,17 +36,17 @@ export function WeatherCompressedCard({
         <span className="text-red-500">
           {dailyVariable.maxTemperature !== undefined
             ? Math.round(dailyVariable.maxTemperature) + "°C"
-            : "s/d"}
+            : t("noData")}
         </span>
         <span className="text-blue-500">
           {dailyVariable.minTemperature !== undefined
             ? Math.round(dailyVariable.minTemperature) + "°C"
-            : "s/d"}
+            : t("noData")}
         </span>
         <span>
           {dailyVariable.precipitationProbability !== undefined
             ? Math.abs(Math.round(dailyVariable.precipitationProbability)) + "%"
-            : "s/d"}
+            : t("noData")}
         </span>
       </CardContent>
     </Card>
